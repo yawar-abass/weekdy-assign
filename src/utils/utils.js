@@ -2,7 +2,7 @@ export async function getJobsPosts(limit) {
   const myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
   const body = JSON.stringify({
-    limit: limit,
+    limit: limit ?? 10,
     offset: 0,
   });
 

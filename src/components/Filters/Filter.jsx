@@ -5,6 +5,7 @@ import React from "react";
 const Filter = () => {
   return (
     <Autocomplete
+      multiple
       disablePortal
       id="combo-box-demo"
       options={[
@@ -13,7 +14,7 @@ const Filter = () => {
         { label: "The Godfather: Part II", year: 1974 },
         { label: "The Dark Knight", year: 2008 },
       ]}
-      sx={{ width: 200 }}
+      sx={{ minWidth: "200px", padding: 0 }}
       renderInput={(params) => <TextField {...params} label="Movie" />}
     />
   );

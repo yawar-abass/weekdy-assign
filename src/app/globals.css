@@ -1,3 +1,25 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.mask-gradient {
+  mask-image: linear-gradient(
+    rgb(255, 255, 255),
+    rgb(255, 255, 255),
+    rgba(255, 255, 255, 0)
+  );
+}
+
+.apply-btn {
+  width: 100%;
+  background-color: #55efc4;
+  color: rgb(0, 0, 0);
+  font-weight: 500;
+  padding: 8px 18px;
+}
