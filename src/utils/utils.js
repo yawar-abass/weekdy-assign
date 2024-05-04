@@ -1,9 +1,11 @@
-export async function getJobsPosts(limit) {
+import { revalidatePath } from "next/cache";
+
+export async function getJobsPosts(limit, offset) {
   const myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
   const body = JSON.stringify({
     limit: limit ?? 10,
-    offset: 0,
+    offset: offset ?? 0,
   });
 
   const requestOptions = {
