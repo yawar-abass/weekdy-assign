@@ -56,3 +56,45 @@ export const filterByLocation = (jobPostsData, location) => {
 export const filterBySalary = (jobPostsData, salary) => {
   return jobPostsData.filter((job) => job?.minJdSalary >= salary.value);
 };
+
+export const applyFilters = (data, filters) => {
+  let filteredData = [...data];
+
+  //Filter by Roles
+  if (filters.roles.length > 0) {
+    filteredData = filterByRoles(filteredData, filters.roles);
+    // filteredData.push(...temp);
+  }
+
+  // Filter by minExperience
+  if (
+    filters.minExperience &&
+    typeof filters.minExperience === "object" &&
+    Object.keys(filters.minExperience).length !== 0
+  ) {
+    filteredData = filterByMinExperience(
+      filteredData,
+      filters.minExperience?.value
+    );
+  }
+
+  // Filter by Location
+  if (
+    filters.location &&
+    typeof filters.location === "object" &&
+    Object.keys(filters.location).length !== 0
+  ) {
+    filteredData = filterByLocation(filteredData, filters.location);
+  }
+
+  // Filter by Salary
+  if (
+    filters.salary &&
+    typeof filters.salary === "object" &&
+    Object.keys(filters.salary).length !== 0
+  ) {
+    filteredData = filterBySalary(filteredData, filters.salary);
+  }
+
+  return filteredData;
+};

@@ -5,12 +5,14 @@ export const useJobPosts = () => {
   const [jobPostsData, setJobPostsData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [hasMore, setHasMore] = useState(true);
+  const [jobCount, setJobCount] = useState(0);
 
   useEffect(() => {
     let temp = false;
     const loadInitialJobPosts = async () => {
       setLoading(true);
-      const { jdList } = await getJobsPosts(50);
+      const { jdList, totalCount } = await getJobsPosts(10);
+      setJobCount(totalCount);
       setJobPostsData(jdList);
       setLoading(false);
     };
@@ -43,9 +45,12 @@ export const useJobPosts = () => {
         setLoading(true);
         const response = await getJobsPosts(10, jobPostsData.length);
         const newJobPosts = response?.jdList;
+        setJobCount(response.totalCount);
+
         setJobPostsData((prevData) => [...prevData, ...newJobPosts]);
-        setLoading(false);
         setHasMore(newJobPosts.length > 0);
+
+        setLoading(false);
       } catch (error) {
         console.error("Error loading more data:", error);
       }
@@ -59,5 +64,5 @@ export const useJobPosts = () => {
     };
   }, [loading, hasMore, jobPostsData]);
 
-  return { jobPostsData, loading };
+  return { jobPostsData, loading, jobCount };
 };

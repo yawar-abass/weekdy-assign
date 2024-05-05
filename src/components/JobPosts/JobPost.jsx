@@ -19,7 +19,7 @@ const JobPost = ({ jobPostData }) => {
     logoUrl,
   } = jobPostData;
 
-  const limitContent = jobDetailsFromCompany.split(" ").slice(0, 90).join(" ");
+  const limitContent = jobDetailsFromCompany?.split(" ").slice(0, 90).join(" ");
   return (
     <div className="min-h-4 flex flex-col  space-y-3 p-5 border-2 shadow-md rounded-2xl ">
       <div className="shadow-sm border-2 rounded-full w-fit px-[6px] py-1">

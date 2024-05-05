@@ -2,12 +2,7 @@
 import Filters from "@/components/Filters/Filters";
 import JobPosts from "@/components/JobPosts";
 import { useJobPosts } from "@/hooks/useJobPosts";
-import {
-  filterByLocation,
-  filterByMinExperience,
-  filterByRoles,
-  filterBySalary,
-} from "@/utils/utils";
+import { applyFilters, getJobsPosts } from "@/utils/utils";
 import { useEffect, useState } from "react";
 
 export default function Home() {
@@ -19,50 +14,35 @@ export default function Home() {
   });
   const [filteredPosts, setFilteredPosts] = useState([]);
   const { jobPostsData, loading } = useJobPosts();
+  const [initialRenderComplete, setInitialRenderComplete] = useState(false);
+  const [isLoading, setIsLoading] = useState(loading);
 
   useEffect(() => {
     if (jobPostsData && jobPostsData.length > 0) {
-      let filteredData = [...jobPostsData];
-
-      //Filter by Roles
-      if (selectedFilters.roles.length > 0) {
-        filteredData = filterByRoles(filteredData, selectedFilters.roles);
-      }
-
-      // Filter by minExperience
-      if (
-        selectedFilters.minExperience &&
-        typeof selectedFilters.minExperience === "object" &&
-        Object.keys(selectedFilters.minExperience).length !== 0
-      ) {
-        filteredData = filterByMinExperience(
-          filteredData,
-          selectedFilters.minExperience?.value
-        );
-      }
-
-      // Filter by Location
-      if (
-        selectedFilters.location &&
-        typeof selectedFilters.location === "object" &&
-        Object.keys(selectedFilters.location).length !== 0
-      ) {
-        filteredData = filterByLocation(filteredData, selectedFilters.location);
-      }
-
-      // Filter by Salary
-      if (
-        selectedFilters.salary &&
-        typeof selectedFilters.salary === "object" &&
-        Object.keys(selectedFilters.salary).length !== 0
-      ) {
-        filteredData = filterBySalary(filteredData, selectedFilters.salary);
-      }
-
+      const filteredData = applyFilters(jobPostsData, selectedFilters);
       setFilteredPosts(filteredData);
+
+      setInitialRenderComplete(true);
       console.log("test" + jobPostsData);
     }
   }, [jobPostsData, selectedFilters]);
+
+  console.log(filteredPosts);
+  useEffect(() => {
+    if (initialRenderComplete && filteredPosts.length === 0 && !loading) {
+      (async () => {
+        setIsLoading(true);
+        const { jdList } = await getJobsPosts(600);
+
+        const filteredData = applyFilters(jdList, selectedFilters);
+        setFilteredPosts(filteredData);
+
+        setInitialRenderComplete(false);
+        setIsLoading(false);
+        console.log("testing in effect");
+      })();
+    }
+  }, [filteredPosts.length, initialRenderComplete, loading, selectedFilters]);
 
   const handleFiltersChange = (filters) => {
     setSelectedFilters(filters);
@@ -72,7 +52,7 @@ export default function Home() {
   return (
     <main className="container mx-auto p-4 max-w-screen-xl">
       <Filters onFiltersChange={handleFiltersChange} />
-      <JobPosts jobPostsData={filteredPosts} loading={loading} />
+      <JobPosts jobPostsData={filteredPosts} loading={isLoading} />
     </main>
   );
 }

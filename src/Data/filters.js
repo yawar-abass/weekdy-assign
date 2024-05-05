@@ -2,6 +2,8 @@ export const roles = [
   { label: "Frontend ", value: "frontend" },
   { label: "Backend", value: "backend" },
   { label: "Tech Lead ", value: "tech lead" },
+  { label: "Andriod", value: "android" },
+  { label: "Ios ", value: "ios" },
 ];
 export const minExperience = [
   { label: "1", value: 1 },
