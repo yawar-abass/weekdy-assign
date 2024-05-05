@@ -1,12 +1,12 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { TextField } from "@mui/material";
-const Search = () => {
-  const [searchQuery, setSearchQuery] = React.useState("");
+const Search = ({ onSearch }) => {
+  const [searchQuery, setSearchQuery] = useState("");
 
-  const handleSearch = () => {
-    // Pass the search query to the parent component
-    // onSearch(searchQuery);
+  const handleSearch = (event) => {
+    setSearchQuery(event.target.value);
+    onSearch(searchQuery);
   };
   return (
     <div>
@@ -14,7 +14,7 @@ const Search = () => {
         label="Search"
         variant="outlined"
         value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
+        onChange={handleSearch}
       />
     </div>
   );

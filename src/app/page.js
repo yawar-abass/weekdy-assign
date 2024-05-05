@@ -2,7 +2,7 @@
 import Filters from "@/components/Filters/Filters";
 import JobPosts from "@/components/JobPosts";
 import { useJobPosts } from "@/hooks/useJobPosts";
-import { applyFilters, getJobsPosts } from "@/utils/utils";
+import { applyFilters, debounce, getJobsPosts } from "@/utils/utils";
 import { useEffect, useState } from "react";
 
 export default function Home() {
@@ -11,6 +11,8 @@ export default function Home() {
     minExperience: {},
     location: "",
     salary: {},
+    // search: "",
+    companies: "",
   });
   const [filteredPosts, setFilteredPosts] = useState([]);
   const { jobPostsData, loading } = useJobPosts();
@@ -27,7 +29,6 @@ export default function Home() {
     }
   }, [jobPostsData, selectedFilters]);
 
-  console.log(filteredPosts);
   useEffect(() => {
     if (initialRenderComplete && filteredPosts.length === 0 && !loading) {
       (async () => {
@@ -43,6 +44,23 @@ export default function Home() {
       })();
     }
   }, [filteredPosts.length, initialRenderComplete, loading, selectedFilters]);
+
+  // useEffect(() => {
+  //   // Function to filter filteredPosts based on search value
+  //   const filterBySearch = async () => {
+  //     const trimmedSearch = selectedFilters.search.trim();
+  //     if (trimmedSearch !== "") {
+  //       const { totalCount } = await getJobsPosts(1);
+  //       const { jdList } = await getJobsPosts(totalCount);
+  //       const searchedData = jdList.filter((post) =>
+  //         post.companyName.toLowerCase().includes(trimmedSearch.toLowerCase())
+  //       );
+  //       setFilteredPosts(searchedData);
+  //     }
+  //   };
+
+  //   filterBySearch();
+  // }, [selectedFilters.search]); //
 
   const handleFiltersChange = (filters) => {
     setSelectedFilters(filters);

@@ -54,7 +54,18 @@ export const filterByLocation = (jobPostsData, location) => {
 };
 
 export const filterBySalary = (jobPostsData, salary) => {
-  return jobPostsData.filter((job) => job?.minJdSalary >= salary.value);
+  return jobPostsData.filter(
+    (job) => job?.minJdSalary ?? job?.maxJdSalary >= salary.value
+  );
+};
+export const filterBySearch = (data, searchQuery) => {
+  console.log(searchQuery.value.toLowerCase(), "search", data);
+  return data.filter((post) =>
+    post.companyName
+      .trim()
+      .toLowerCase()
+      .includes(searchQuery.value.toLowerCase())
+  );
 };
 
 export const applyFilters = (data, filters) => {
@@ -96,5 +107,49 @@ export const applyFilters = (data, filters) => {
     filteredData = filterBySalary(filteredData, filters.salary);
   }
 
+  if (
+    filters.companies &&
+    typeof filters.companies === "object" &&
+    Object.keys(filters.companies).companies !== 0
+  ) {
+    filteredData = filterBySearch(filteredData, filters.companies);
+  }
+
   return filteredData;
+};
+
+export const getCompanies = async () => {
+  try {
+    const { totalCount } = await getJobsPosts(1);
+    const { jdList } = await getJobsPosts(totalCount);
+
+    const companies = jdList.map((job) => ({
+      label: job.companyName,
+      value: job.companyName,
+    }));
+    // Remove duplicate compnay names
+    const uniqueCompanies = [...new Set(companies.map(JSON.stringify))].map(
+      JSON.parse
+    );
+    return uniqueCompanies || [];
+  } catch (error) {
+    console.error("Error loading more data:", error);
+  }
+};
+
+// Debounce function
+export const debounce = (func, delay) => {
+  let timer;
+  const debouncedFunction = (...args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      func(...args);
+    }, delay);
+  };
+
+  debouncedFunction.cancel = () => {
+    clearTimeout(timer);
+  };
+
+  return debouncedFunction;
 };

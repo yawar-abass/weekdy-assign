@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Filter from "./Filter";
 import Search from "./Search";
 import { basePay, locations, minExperience, roles } from "@/Data/filters";
+import { getCompanies } from "@/utils/utils";
 
 const Filters = ({ onFiltersChange }) => {
   const [selectedFilters, setSelectedFilters] = useState({
@@ -10,7 +11,10 @@ const Filters = ({ onFiltersChange }) => {
     minExperience: "",
     location: "",
     salary: { label: "1L", value: 1 },
+    companies: "",
   });
+
+  const [companies, setCompanies] = useState([]);
 
   const handleChangeFilters = (filterName, value) => {
     setSelectedFilters((prevFilters) => ({
@@ -23,6 +27,21 @@ const Filters = ({ onFiltersChange }) => {
     onFiltersChange(selectedFilters);
   }, [selectedFilters, onFiltersChange]);
   // console.log(selectedFilters.location);
+
+  useEffect(() => {
+    (async () => {
+      const companies = await getCompanies();
+      console.log(companies);
+      setCompanies(companies);
+    })();
+  }, []);
+
+  const handleSearch = (searchQuery) => {
+    setSelectedFilters((prevFilters) => ({
+      ...prevFilters,
+      search: searchQuery.trim(),
+    }));
+  };
 
   return (
     <div className="flex flex-wrap gap-2 w-full ">
@@ -70,7 +89,18 @@ const Filters = ({ onFiltersChange }) => {
         width="200px"
       />
 
-      <Search />
+      <Filter
+        filters={companies}
+        label="Companies"
+        isMultiple={false}
+        selectedValues={selectedFilters.companies}
+        onValuesChange={(event, values) =>
+          handleChangeFilters("companies", values)
+        }
+        width="200px"
+      />
+
+      {/* <Search onSearch={handleSearch} /> */}
     </div>
   );
 };
