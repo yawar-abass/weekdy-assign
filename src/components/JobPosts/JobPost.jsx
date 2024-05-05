@@ -60,9 +60,7 @@ const JobPost = ({ jobPostData }) => {
         <h5 className="font-bold opacity-90 text-sm text-[#8b8b8b] tracking-widest">
           Experience Required:
         </h5>
-        <p className="text-sm opacity-90 ">
-          {minExp ?? "0 ⚠️"} - {maxExp} Years
-        </p>
+        <p className="text-sm opacity-90 ">{minExp ?? "0 ⚠️"} Years</p>
       </div>
       <ApplyButton href={jdLink} />
       <ReferralButton />

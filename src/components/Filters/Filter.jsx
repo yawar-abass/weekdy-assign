@@ -2,21 +2,31 @@
 import { Autocomplete, TextField } from "@mui/material";
 import React from "react";
 
-const Filter = () => {
+const Filter = ({
+  filters,
+  label,
+  selectedValues,
+  onValuesChange,
+  width,
+  isMultiple,
+}) => {
+  // const selectedValues = React.useMemo(
+  //   () => allValues.filter((v) => v.selected),
+  //   [allValues],
+  // );
   return (
-    <Autocomplete
-      multiple
-      disablePortal
-      id="combo-box-demo"
-      options={[
-        { label: "The Shawshank Redemption", year: 1994 },
-        { label: "The Godfather", year: 1972 },
-        { label: "The Godfather: Part II", year: 1974 },
-        { label: "The Dark Knight", year: 2008 },
-      ]}
-      sx={{ minWidth: "200px", padding: 0 }}
-      renderInput={(params) => <TextField {...params} label="Movie" />}
-    />
+    <div>
+      <Autocomplete
+        multiple={isMultiple}
+        disablePortal
+        id="combo-box-demo"
+        options={filters}
+        value={selectedValues}
+        onChange={onValuesChange}
+        sx={{ minWidth: width ?? "150px", fontSize: "11px", padding: "0" }}
+        renderInput={(params) => <TextField {...params} label={label} />}
+      />
+    </div>
   );
 };
 

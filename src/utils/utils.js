@@ -26,3 +26,13 @@ export async function getJobsPosts(limit, offset) {
     console.log("Error while fething job posts", error);
   }
 }
+
+export const filterByRoles = (jobPostsData, roles) => {
+  return jobPostsData.filter((job) =>
+    roles.some((role) => job.jobRole.includes(role.value))
+  );
+};
+
+export const filterByMinExperience = (jobPostsData, minExperience) => {
+  return jobPostsData.filter((job) => job?.minExp <= minExperience);
+};
