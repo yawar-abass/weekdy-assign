@@ -9,6 +9,12 @@ const JobPosts = ({ jobPostsData, loading }) => {
       {jobPostsData.map((jobPost, index) => (
         <JobPost key={jobPost?.jdUid} jobPostData={jobPost} />
       ))}
+      {jobPostsData.length === 0 && !loading && (
+        <div className="">
+          {" "}
+          <h2>No Jobs Found</h2>{" "}
+        </div>
+      )}
       {loading && <CircularProgress style={{ textAlign: "center" }} />}
     </div>
   );

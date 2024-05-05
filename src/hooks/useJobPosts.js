@@ -10,7 +10,7 @@ export const useJobPosts = () => {
     let temp = false;
     const loadInitialJobPosts = async () => {
       setLoading(true);
-      const { jdList } = await getJobsPosts();
+      const { jdList } = await getJobsPosts(50);
       setJobPostsData(jdList);
       setLoading(false);
     };

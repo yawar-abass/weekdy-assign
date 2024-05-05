@@ -9,6 +9,7 @@ const Filter = ({
   onValuesChange,
   width,
   isMultiple,
+  isOptionEqualToValue,
 }) => {
   // const selectedValues = React.useMemo(
   //   () => allValues.filter((v) => v.selected),
@@ -25,6 +26,7 @@ const Filter = ({
         onChange={onValuesChange}
         sx={{ minWidth: width ?? "150px", fontSize: "11px", padding: "0" }}
         renderInput={(params) => <TextField {...params} label={label} />}
+        // isOptionEqualToValue={isOptionEqualToValue}
       />
     </div>
   );

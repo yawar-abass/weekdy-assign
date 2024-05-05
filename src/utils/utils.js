@@ -20,7 +20,7 @@ export async function getJobsPosts(limit, offset) {
       requestOptions
     );
     const jobPosts = await response.json();
-
+    console.log(jobPosts);
     return jobPosts;
   } catch (error) {
     console.log("Error while fething job posts", error);
@@ -35,4 +35,24 @@ export const filterByRoles = (jobPostsData, roles) => {
 
 export const filterByMinExperience = (jobPostsData, minExperience) => {
   return jobPostsData.filter((job) => job?.minExp <= minExperience);
+};
+
+export const filterByLocation = (jobPostsData, location) => {
+  if (location?.value.toLowerCase() === "in-office") {
+    return jobPostsData.filter(
+      (job) => job.location.toLowerCase() !== "remote"
+    );
+  } else if (location?.value.toLowerCase() === "hybrid") {
+    return jobPostsData.filter((job) =>
+      job.location.toLowerCase().includes(location.value.toLowerCase())
+    );
+  } else {
+    return jobPostsData.filter((job) =>
+      job.location.toLowerCase().includes(location.value.toLowerCase())
+    );
+  }
+};
+
+export const filterBySalary = (jobPostsData, salary) => {
+  return jobPostsData.filter((job) => job?.minJdSalary >= salary.value);
 };

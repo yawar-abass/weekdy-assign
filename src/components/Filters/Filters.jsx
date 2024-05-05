@@ -2,12 +2,14 @@
 import React, { useEffect, useState } from "react";
 import Filter from "./Filter";
 import Search from "./Search";
-import { minExperience, roles } from "@/Data/filters";
+import { basePay, locations, minExperience, roles } from "@/Data/filters";
 
 const Filters = ({ onFiltersChange }) => {
   const [selectedFilters, setSelectedFilters] = useState({
     roles: [],
     minExperience: "",
+    location: "",
+    salary: { label: "1L", value: 1 },
   });
 
   const handleChangeFilters = (filterName, value) => {
@@ -20,7 +22,7 @@ const Filters = ({ onFiltersChange }) => {
   useEffect(() => {
     onFiltersChange(selectedFilters);
   }, [selectedFilters, onFiltersChange]);
-  console.log(selectedFilters);
+  // console.log(selectedFilters.location);
 
   return (
     <div className="flex flex-wrap gap-2 w-full ">
@@ -30,6 +32,7 @@ const Filters = ({ onFiltersChange }) => {
         selectedValues={selectedFilters.roles}
         isMultiple={true}
         onValuesChange={(event, values) => handleChangeFilters("roles", values)}
+        isOptionEqualToValue={(option, value) => option.value === value}
         width="130px"
       />
       <Filter
@@ -40,10 +43,32 @@ const Filters = ({ onFiltersChange }) => {
         onValuesChange={(event, values) =>
           handleChangeFilters("minExperience", values)
         }
+        isOptionEqualToValue={(option, value) => option.value === value}
       />
-      <Filter filters={roles} label="Roles" />
-      <Filter filters={roles} label="Roles" />
-      <Filter filters={roles} label="Roles" />
+      <Filter
+        filters={locations}
+        label="Locations"
+        isMultiple={false}
+        selectedValues={selectedFilters.location}
+        onValuesChange={(event, values) =>
+          handleChangeFilters("location", values)
+        }
+        isOptionEqualToValue={(option, value) => option.value === value}
+      />
+      <Filter
+        filters={basePay}
+        label="Minimum Base Pay"
+        isMultiple={false}
+        selectedValues={
+          !selectedFilters.salary?.value
+            ? selectedFilters.salary
+            : selectedFilters.salary.value + "L"
+        }
+        onValuesChange={(event, values) =>
+          handleChangeFilters("salary", values)
+        }
+        width="200px"
+      />
 
       <Search />
     </div>

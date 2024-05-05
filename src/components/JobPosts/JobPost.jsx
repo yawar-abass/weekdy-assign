@@ -26,7 +26,13 @@ const JobPost = ({ jobPostData }) => {
         <p className="text-[9px] ">⏳ Posted a day ago</p>
       </div>
       <div className="flex gap-2">
-        <Image src={logoUrl} alt="logo" width={50} height={50} />
+        <Image
+          src={logoUrl}
+          alt="logo"
+          width={50}
+          height={50}
+          className="w-auto h-auto"
+        />
         <div>
           <h3 className="text-sm font-bold  text-[#8b8b8b] tracking-wider">
             {companyName}

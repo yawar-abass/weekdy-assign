@@ -1,7 +1,7 @@
 export const roles = [
   { label: "Frontend ", value: "frontend" },
   { label: "Backend", value: "backend" },
-  { label: "Full Stack ", value: "full_stack" },
+  { label: "Tech Lead ", value: "tech lead" },
 ];
 export const minExperience = [
   { label: "1", value: 1 },
@@ -15,8 +15,20 @@ export const minExperience = [
   { label: "9", value: 9 },
   { label: "10", value: 10 },
 ];
-export const location = [
-  { label: "Frontend ", value: "frontend" },
-  { label: "Backend", value: "backend" },
-  { label: "Full Stack ", value: "full_stack" },
+export const locations = [
+  { label: "Remote ", value: "Remote" },
+  { label: "In-Office", value: "in-office" },
+  //   { label: "Hybrid ", value: "hybrid" },
+];
+
+export const basePay = [
+  { label: "1L ", value: 1 },
+  { label: "10L ", value: 10 },
+  { label: "20L ", value: 20 },
+  { label: "30L ", value: 30 },
+  { label: "40L ", value: 40 },
+  { label: "50L ", value: 50 },
+  { label: "60L ", value: 60 },
+  { label: "70L ", value: 70 },
+  { label: "80L ", value: 80 },
 ];

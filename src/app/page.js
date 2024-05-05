@@ -2,13 +2,20 @@
 import Filters from "@/components/Filters/Filters";
 import JobPosts from "@/components/JobPosts";
 import { useJobPosts } from "@/hooks/useJobPosts";
-import { filterByMinExperience, filterByRoles } from "@/utils/utils";
+import {
+  filterByLocation,
+  filterByMinExperience,
+  filterByRoles,
+  filterBySalary,
+} from "@/utils/utils";
 import { useEffect, useState } from "react";
 
 export default function Home() {
   const [selectedFilters, setSelectedFilters] = useState({
     roles: [],
     minExperience: {},
+    location: "",
+    salary: {},
   });
   const [filteredPosts, setFilteredPosts] = useState([]);
   const { jobPostsData, loading } = useJobPosts();
@@ -33,14 +40,34 @@ export default function Home() {
           selectedFilters.minExperience?.value
         );
       }
+
+      // Filter by Location
+      if (
+        selectedFilters.location &&
+        typeof selectedFilters.location === "object" &&
+        Object.keys(selectedFilters.location).length !== 0
+      ) {
+        filteredData = filterByLocation(filteredData, selectedFilters.location);
+      }
+
+      // Filter by Salary
+      if (
+        selectedFilters.salary &&
+        typeof selectedFilters.salary === "object" &&
+        Object.keys(selectedFilters.salary).length !== 0
+      ) {
+        filteredData = filterBySalary(filteredData, selectedFilters.salary);
+      }
+
       setFilteredPosts(filteredData);
+      console.log("test" + jobPostsData);
     }
   }, [jobPostsData, selectedFilters]);
 
   const handleFiltersChange = (filters) => {
     setSelectedFilters(filters);
   };
-  console.log("test" + filteredPosts);
+  // console.log("test" + selectedFilters);
 
   return (
     <main className="container mx-auto p-4 max-w-screen-xl">
