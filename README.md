@@ -51,7 +51,7 @@ To learn more about Next.js, check out the [Next.js documentation](https://nextj
 
 ## Other Details
 
-I have deployed it on vercel. Here is the live url: [Live Url](https://weekdy-assign.vercel.app/)
+I have deployed it on vercel. Here is the live url: [Live Url](https://weekday-assign.vercel.app/)
 
 I have separated the logic for fetching data with infinite scroll and filtering logic in the hooks folder.
 
