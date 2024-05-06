@@ -4,8 +4,8 @@ import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "WeekDay Assignment",
-  description: "Building WeekDay Assignment",
+  title: "Find Jobs via WeekDay",
+  description: "Get the best jobs in the market",
 };
 
 export default function RootLayout({ children }) {

@@ -4,13 +4,12 @@ import JobPost from "./JobPost";
 import { CircularProgress } from "@mui/material";
 
 const JobPosts = ({ jobPostsData, loading }) => {
-  console.log(jobPostsData, "jobPostsData");
   const uniqueJobPostsData = [
     ...new Set(jobPostsData?.map(JSON.stringify)),
   ].map(JSON.parse);
 
   return (
-    <div className="grid gap-5 lg:grid-cols-3 sm:grid-cols-2 md:p-6 justify-center">
+    <div className="grid gap-5 lg:grid-cols-3 sm:grid-cols-2 md:p-6 pt-6  justify-center">
       {uniqueJobPostsData.map((jobPost, index) => (
         <JobPost key={jobPost?.jdUid} jobPostData={jobPost} />
       ))}

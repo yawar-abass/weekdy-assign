@@ -20,7 +20,6 @@ export const minExperience = [
 export const locations = [
   { label: "Remote ", value: "Remote" },
   { label: "In-Office", value: "in-office" },
-  //   { label: "Hybrid ", value: "hybrid" },
 ];
 
 export const basePay = [

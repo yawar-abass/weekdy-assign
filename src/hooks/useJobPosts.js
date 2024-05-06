@@ -11,7 +11,7 @@ export const useJobPosts = () => {
     let temp = false;
     const loadInitialJobPosts = async () => {
       setLoading(true);
-      const { jdList, totalCount } = await getJobsPosts(10);
+      const { jdList, totalCount } = await getJobsPosts();
       setJobCount(totalCount);
       setJobPostsData(jdList);
       setLoading(false);
@@ -21,7 +21,7 @@ export const useJobPosts = () => {
       loadInitialJobPosts();
     }
 
-    return () => (temp = false);
+    return () => (temp = true);
   }, []);
 
   useEffect(() => {

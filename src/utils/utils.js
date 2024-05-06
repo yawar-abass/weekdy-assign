@@ -1,5 +1,3 @@
-import { revalidatePath } from "next/cache";
-
 export async function getJobsPosts(limit, offset) {
   const myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
@@ -55,7 +53,7 @@ export const filterByLocation = (jobPostsData, location) => {
 
 export const filterBySalary = (jobPostsData, salary) => {
   return jobPostsData.filter(
-    (job) => job?.minJdSalary ?? job?.maxJdSalary >= salary.value
+    (job) => (job.minJdSalary ?? job?.maxJdSalary) >= salary.value
   );
 };
 export const filterBySearch = (data, searchQuery) => {
@@ -74,7 +72,6 @@ export const applyFilters = (data, filters) => {
   //Filter by Roles
   if (filters.roles.length > 0) {
     filteredData = filterByRoles(filteredData, filters.roles);
-    // filteredData.push(...temp);
   }
 
   // Filter by minExperience
@@ -135,21 +132,4 @@ export const getCompanies = async () => {
   } catch (error) {
     console.error("Error loading more data:", error);
   }
-};
-
-// Debounce function
-export const debounce = (func, delay) => {
-  let timer;
-  const debouncedFunction = (...args) => {
-    clearTimeout(timer);
-    timer = setTimeout(() => {
-      func(...args);
-    }, delay);
-  };
-
-  debouncedFunction.cancel = () => {
-    clearTimeout(timer);
-  };
-
-  return debouncedFunction;
 };
