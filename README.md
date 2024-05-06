@@ -48,3 +48,17 @@ In the project directory, you can run the following scripts:
 ## Learn More
 
 To learn more about Next.js, check out the [Next.js documentation](https://nextjs.org/docs).
+
+## Other Details
+
+I have deployed it on vercel. Here is the live url: [Live Url](https://weekdy-assign.vercel.app/)
+
+I have separated the logic for fetching data with infinite scroll and filtering logic in the hooks folder.
+
+The utils folder contains utility functions related to fetching data and filters.
+
+I have used some dummy data for some filters and fetched data from the API for others.
+
+```
+
+```
