@@ -29,11 +29,13 @@ export function useFilteredJobPosts() {
     selectedFilters.location !== "";
 
   useEffect(() => {
-    if (jobPostsData && jobPostsData.length > 0) {
+    if (jobPostsData && jobPostsData.length > 0 && isFelterSelected) {
       const filteredData = applyFilters(jobPostsData, selectedFilters);
       setFilteredPosts(filteredData);
+    } else {
+      setFilteredPosts(jobPostsData);
     }
-  }, [jobPostsData, selectedFilters]);
+  }, [jobPostsData, selectedFilters, isFelterSelected]);
 
   useEffect(() => {
     let temp = false;
