@@ -18,7 +18,7 @@ export async function getJobsPosts(limit, offset) {
       requestOptions
     );
     const jobPosts = await response.json();
-    console.log(jobPosts);
+    // console.log(jobPosts);
     return jobPosts;
   } catch (error) {
     console.log("Error while fething job posts", error);
