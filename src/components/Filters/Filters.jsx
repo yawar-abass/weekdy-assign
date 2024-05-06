@@ -1,9 +1,31 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Filter from "./Filter";
-import { basePay, locations, minExperience, roles } from "@/Data/filters";
+import { basePay, minExperience, remote, roles } from "@/Data/filters";
+import { getLocations } from "@/utils/utils";
 
 const Filters = ({ onFiltersChange, selectedFilters, companies }) => {
+  const [locations, setLocations] = useState([]);
+  const [isRemoteSelected, setIsRemoteSelected] = useState(false);
+  useEffect(() => {
+    let temp = false;
+
+    (async () => {
+      if (temp) return;
+      const locations = await getLocations();
+      setLocations(locations);
+    })();
+    return () => (temp = true);
+  }, []);
+
+  useEffect(() => {
+    if (selectedFilters.remote?.value?.toLowerCase() === "remote") {
+      setIsRemoteSelected(true);
+    } else {
+      setIsRemoteSelected(false);
+    }
+  }, [selectedFilters.remote]);
+
   const handleChangeFilters = (filterName, value) => {
     const updatedFilters = { ...selectedFilters, [filterName]: value };
     onFiltersChange(updatedFilters);
@@ -29,12 +51,12 @@ const Filters = ({ onFiltersChange, selectedFilters, companies }) => {
         }
       />
       <Filter
-        filters={locations}
-        label="Locations"
+        filters={remote}
+        label="Remote"
         isMultiple={false}
-        selectedValues={selectedFilters.location}
+        selectedValues={selectedFilters.remote}
         onValuesChange={(event, values) =>
-          handleChangeFilters("location", values)
+          handleChangeFilters("remote", values)
         }
       />
       <Filter
@@ -61,6 +83,17 @@ const Filters = ({ onFiltersChange, selectedFilters, companies }) => {
           handleChangeFilters("companies", values)
         }
         width="200px"
+      />
+      <Filter
+        filters={locations}
+        label="Locations"
+        isMultiple={false}
+        selectedValues={selectedFilters.location}
+        onValuesChange={(event, values) =>
+          handleChangeFilters("location", values)
+        }
+        width="200px"
+        disabled={isRemoteSelected}
       />
     </div>
   );

@@ -17,7 +17,7 @@ export const minExperience = [
   { label: "9", value: 9 },
   { label: "10", value: 10 },
 ];
-export const locations = [
+export const remote = [
   { label: "Remote ", value: "Remote" },
   { label: "In-Office", value: "in-office" },
 ];

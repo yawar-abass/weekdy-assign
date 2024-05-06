@@ -11,7 +11,7 @@ export const useJobPosts = () => {
     let temp = false;
     const loadInitialJobPosts = async () => {
       setLoading(true);
-      const { jdList, totalCount } = await getJobsPosts();
+      const { jdList, totalCount } = await getJobsPosts(20);
       setJobCount(totalCount);
       setJobPostsData(jdList);
       setLoading(false);
@@ -43,7 +43,7 @@ export const useJobPosts = () => {
     const loadMoreJobPosts = async () => {
       try {
         setLoading(true);
-        const response = await getJobsPosts(10, jobPostsData.length);
+        const response = await getJobsPosts(50, jobPostsData.length);
         const newJobPosts = response?.jdList;
         setJobCount(response.totalCount);
 

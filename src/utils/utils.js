@@ -35,7 +35,7 @@ export const filterByMinExperience = (jobPostsData, minExperience) => {
   return jobPostsData.filter((job) => job?.minExp <= minExperience);
 };
 
-export const filterByLocation = (jobPostsData, location) => {
+export const filterByRemote = (jobPostsData, location) => {
   if (location?.value.toLowerCase() === "in-office") {
     return jobPostsData.filter(
       (job) => job.location.toLowerCase() !== "remote"
@@ -50,14 +50,18 @@ export const filterByLocation = (jobPostsData, location) => {
     );
   }
 };
+export const filterByLocation = (jobPostsData, location) => {
+  return jobPostsData.filter((job) =>
+    job.location.toLowerCase().includes(location.value.toLowerCase())
+  );
+};
 
 export const filterBySalary = (jobPostsData, salary) => {
   return jobPostsData.filter(
     (job) => (job.minJdSalary ?? job?.maxJdSalary) >= salary.value
   );
 };
-export const filterBySearch = (data, searchQuery) => {
-  console.log(searchQuery.value.toLowerCase(), "search", data);
+export const filterByCompany = (data, searchQuery) => {
   return data.filter((post) =>
     post.companyName
       .trim()
@@ -86,7 +90,16 @@ export const applyFilters = (data, filters) => {
     );
   }
 
-  // Filter by Location
+  // Filter by Remote
+  if (
+    filters.remote &&
+    typeof filters.remote === "object" &&
+    Object.keys(filters.remote).length !== 0
+  ) {
+    filteredData = filterByRemote(filteredData, filters.remote);
+  }
+
+  // Filter by locations
   if (
     filters.location &&
     typeof filters.location === "object" &&
@@ -103,13 +116,13 @@ export const applyFilters = (data, filters) => {
   ) {
     filteredData = filterBySalary(filteredData, filters.salary);
   }
-
+  // Filter by Companies
   if (
     filters.companies &&
     typeof filters.companies === "object" &&
     Object.keys(filters.companies).companies !== 0
   ) {
-    filteredData = filterBySearch(filteredData, filters.companies);
+    filteredData = filterByCompany(filteredData, filters.companies);
   }
 
   return filteredData;
@@ -131,5 +144,32 @@ export const getCompanies = async () => {
     return uniqueCompanies || [];
   } catch (error) {
     console.error("Error loading more data:", error);
+  }
+};
+
+export const getLocations = async () => {
+  try {
+    const { jdList } = await getJobsPosts(700);
+
+    if (!jdList) {
+      console.error("Error: No job list found.");
+      return [];
+    }
+
+    const locations = jdList
+      .filter((job) => job.location !== "remote")
+      .map((job) => ({
+        label: job.location,
+        value: job.location,
+      }));
+
+    // Remove duplicate locations
+    const uniqueLocations = [...new Set(locations.map(JSON.stringify))].map(
+      JSON.parse
+    );
+    return uniqueLocations || [];
+  } catch (error) {
+    console.error("Error loading in more locations:", error);
+    return [];
   }
 };
